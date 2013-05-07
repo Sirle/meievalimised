@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+	<link href="css/main.css" rel="stylesheet" type="text/css" media="all"/>
+	<link href="css/mainMenu.css" rel="stylesheet" type="text/css" media="all"/>
+	<link href="css/print.css" rel="stylesheet" type="text/css" media="print"/>
+	<title>E-valimised - Valijale</title>
+	<!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<link type="text/css" href="css/jquery-ui-1.8.13.custom.css" rel="stylesheet">  -->
+	<script src="script/jquery-1.9.1.js"></script>
+	<script src="script/main.js"></script>
+	<script src="script/search.js"></script>
+	<script src="script/suggest.js"></script>
+	<script src="script/jquery-ui.js"></script>
+	<link type="text/css" href="css/autocss.css" rel="stylesheet">
+	
+</head>
+
+<body onLoad="redirectCSS()">
+<p style="color:red">Antud rakendus ei ole mõeldud kasutamiseks reaalsetel valimistel.</p>
+	  <ul id="menu" class="no-print"> 
+		<li><a href="WebHome.html">Pealeht</a><li>
+		<li><a href="WebStatistika.html">Statistika</a><li>
+		<li><a href="WebKandidaadid.html">Kandidaadid</a><li>
+		<li><a href="WebValijale.html">Valijale</a><li>
+		<li><a href="WebH22leta.html">Hääleta</a><li>
+	</ul>
+
+<div class="content">
+	<div id="suurKast">
+		<h1>Lisa kandidaadiks</h1>
+		<h2><a href="WebKandidaadiReg.html">KANDIDEERI</a></h2><br/>
+		
+			<h1>Kandidaatide otsing</h1>
+		
+
+			<div id="search-form">
+				<select name="region" id="area">
+					<option value="0">Kõik ringkonnad</option>
+					<option value="1">Harjumaa</option>
+					<option value="2">Pärnumaa </option>
+					<option value="3">Tartumaa </option>
+					<option value="4">Võrumaa </option>
+					<option value="5">Valgamaa </option>
+				</select>
+				<select name="party" id="party">
+					<option value="0">Kõik erakonnad</option>
+					<option value="1">Kollased </option>
+					<option value="2">Punased </option>
+					<option value="3">Rohelised </option>
+					<option value="4">Sinised </option>
+					
+
+				</select>
+				<input type="text" placeholder="Sisesta nimi" onfocus="suggest()" id="name">
+				<input id="myButton" type="button" class="otsi" onclick= "otsi()" value="Otsi">
+		
+			</div>
+			
+			<br/>	
+			<div style="border:1px solid #ccc;padding:5px;">
+				<table id="candidate-list">
+					<thead>
+						<tr>
+							<th>Nr</th>
+							<th>Nimi</th>
+							<th>Ringkond</th>
+							<th>Partei</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td><a>1</a></td>
+							<td><a>Eesnimi Perekonnanimi</a></td>
+							<td><a>Valimisringkond</a></td>
+							<td><a>Partei</a></td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Eesnimi Perekonnanimi</td>
+							<td>Valimisringkond</td>
+							<td>Partei</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	</div>	
+</div>
