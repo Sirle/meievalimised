@@ -12,15 +12,14 @@ public class Candidate implements java.io.Serializable{
 	private String lastName;
 	private String party;
 	private String location;
-	private String email;
 	private String info;
 	
-	public Candidate (String firstName, String lastName, String party, String location, String email){
+	public Candidate (String firstName, String lastName, String party, String location){
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.party = party;
 		this.location = location;
-		this.email = email;
+		
 	}
 	
 	
@@ -64,14 +63,6 @@ public class Candidate implements java.io.Serializable{
 	
 	public void setLocation(String location){
 		this.location = location;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getInfo() {

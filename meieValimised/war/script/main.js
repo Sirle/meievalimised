@@ -73,6 +73,7 @@ jQuery(document).on('click', '.otsi', function() {
 		};
 	};
 	
+	/**
 	var ajaxroute;
 	if(search.region && search.party) {
 		ajaxroute = "/candSearch";

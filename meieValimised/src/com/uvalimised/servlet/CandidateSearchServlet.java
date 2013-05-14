@@ -71,19 +71,7 @@ public class CandidateSearchServlet extends HttpServlet {
           response.getWriter().write(jsonData);
 
 	    } 
-	    catch (SQLException e) {
-	        e.printStackTrace();
-	    } 
-	    finally {
-	        if (conn != null){
-	        	try {
-					conn.close();
-				} 
-	        	catch (SQLException ignore) {}
-	        }
-	    } 
-	 
-	  }
+}
 
 	private static String createQuery(String firstname, String lastname, String party, String area) {
 		String beginning = "SELECT candidate.firstname, candidate.lastname";

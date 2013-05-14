@@ -5,9 +5,9 @@ import java.util.UUID;
 import com.visural.common.StringUtil;
 
 public class Facebook{   
-    private static final String secret = "ca3e70a23a25c963d209fee08628b2a2";
-    private static final String client_id = "386869324759549";  
-    private static final String redirect_uri = "http://localhost:8080/ValimisedSnoopy/FBauth"; 
+    private static final String secret = "13fe9e6811cf2298bbd4a5c43f254cc2";
+    private static final String client_id = "504180456313968";  
+    private static final String redirect_uri = "http://meievalimised.appspot.com/FBauth"; 
     private static final UUID state = UUID.randomUUID();
     
     //List of permissions.

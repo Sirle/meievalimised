@@ -35,7 +35,7 @@ public class FBauth extends HttpServlet{
 		
 	}
 		
-		/*String faceCode = request.getParameter("code");
+		/**String faceCode = request.getParameter("code");
 		if (StringUtil.isNotBlankStr(faceCode)) {
 			String authURL = Facebook.getAuthURL(faceCode);
             URL url = new URL(authURL);
