@@ -98,7 +98,6 @@ public class CandidateServlet extends HttpServlet{
 				statement.setString(2, candidate.getLastName());
 				statement.setString(3, candidate.getParty());
 				statement.setString(4, candidate.getLocation());
-				statement.setString(5, candidate.getEmail());
 				//statement.setString(6, candidate.getInfo());
 				//statement.setString(7, candidate.getPicture());
 				

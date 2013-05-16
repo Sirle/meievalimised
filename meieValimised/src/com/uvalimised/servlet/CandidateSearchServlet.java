@@ -45,7 +45,7 @@ public class CandidateSearchServlet extends HttpServlet {
 		 Connection c = null;
 		    try {
 		      DriverManager.registerDriver(new AppEngineDriver());
-		      c = DriverManager.getConnection("jdbc:google:rdbms://netivalimised2013:netivalimised/evalimised", "root", "");
+		      c = DriverManager.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
 		
 		String party = request.getParameter("party");
 		String area = request.getParameter("area");
@@ -61,17 +61,18 @@ public class CandidateSearchServlet extends HttpServlet {
 	    	  statement = "SELECT candidate.firstname, candidate.lastname, party_id, area_id " +
 	    	  		"FROM candidate";
 	      }
-	      else
+	      else {
 	    	  statement = createQuery(firstname,lastname,party, area);
-    	  PreparedStatement stmt = conn.prepareStatement(statement);
-	      ResultSet rs = stmt.executeQuery();
-	      String jsonData = createJSON(rs, party,area);
-          response.setContentType("application/json");
-          response.setCharacterEncoding("UTF-8");
-          response.getWriter().write(jsonData);
+	      		PreparedStatement stmt = c.prepareStatement(statement);
+	      		ResultSet rs = stmt.executeQuery();
+		      	String jsonData = createJSON(rs, party,area);
+		      	response.setContentType("application/json");
+		      	response.setCharacterEncoding("UTF-8");
+		      	response.getWriter().write(jsonData);
 
-	    } 
-}
+	      		}
+	    }
+	 
 
 	private static String createQuery(String firstname, String lastname, String party, String area) {
 		String beginning = "SELECT candidate.firstname, candidate.lastname";
