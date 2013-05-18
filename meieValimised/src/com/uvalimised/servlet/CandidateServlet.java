@@ -18,11 +18,6 @@ import com.uvalimised.DAO.ConnectionManager;
 import com.uvalimised.data.Candidate;
 import com.uvalimised.data.User;
 
-/**
- * CandidateServlet
- * @author Robert
- *
- */
 public class CandidateServlet extends HttpServlet{
 	private static final long serialVersionUID = 6765583424445139002L;
 
@@ -124,7 +119,12 @@ public class CandidateServlet extends HttpServlet{
 		
 		ServletContext sc = getServletContext();
 	    sc.getRequestDispatcher("/WebKandidaadiReg.html").forward(req, resp);
+	    
     }
+	catch (Exception ex){
+		System.out.println(ex);
+	}
+	}
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
