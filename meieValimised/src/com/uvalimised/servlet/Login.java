@@ -39,7 +39,7 @@ public class Login extends HttpServlet {
             User user = new User();
             user.setUsername(request.getParameter("uname"));
             user.setPassword(request.getParameter("password"));
-            user = UserDAO.login(user);
+           // user = UserDAO.login(user);
             if(user.isValid()){
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user", user);

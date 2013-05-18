@@ -1,10 +1,10 @@
 package com.uvalimised.servlet;
-import com.google.appengine.api.rdbms.AppEngineDriver;
+import com.google.appengine.api.rdbms.AppEngineDriver; 
 import com.google.gson.Gson;  
 import com.google.gson.GsonBuilder;
 import com.uvalimised.data.Candidate;
 
-import java.io.IOException;  
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -42,11 +42,11 @@ public class CandidateSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 Connection c = null;
-		    try {
-		      DriverManager.registerDriver(new AppEngineDriver());
-		      c = DriverManager.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
-		
+		Connection c = null;
+	    try {
+	      DriverManager.registerDriver(new AppEngineDriver());
+	      c = DriverManager.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
+		      
 		String party = request.getParameter("party");
 		String area = request.getParameter("area");
 		String firstname = request.getParameter("firstname");	
@@ -61,18 +61,27 @@ public class CandidateSearchServlet extends HttpServlet {
 	    	  statement = "SELECT candidate.firstname, candidate.lastname, party_id, area_id " +
 	    	  		"FROM candidate";
 	      }
+	   
 	      else {
-	    	  statement = createQuery(firstname,lastname,party, area);
+	    	  	statement = createQuery(firstname,lastname,party, area);
 	      		PreparedStatement stmt = c.prepareStatement(statement);
 	      		ResultSet rs = stmt.executeQuery();
 		      	String jsonData = createJSON(rs, party,area);
 		      	response.setContentType("application/json");
 		      	response.setCharacterEncoding("UTF-8");
 		      	response.getWriter().write(jsonData);
-
-	      		}
-	    }
-	 
+	      
+	    	}
+	      
+	    }catch (SQLException e) {
+	        e.printStackTrace();
+	    } 
+	    
+	    }catch (SQLException e) {
+	        e.printStackTrace();
+	    } 
+       
+	}
 
 	private static String createQuery(String firstname, String lastname, String party, String area) {
 		String beginning = "SELECT candidate.firstname, candidate.lastname";
@@ -134,8 +143,6 @@ public class CandidateSearchServlet extends HttpServlet {
 	   //String party = request.getParameter("Party");
 	   //response.getWriter().write("{ id : 1 }");
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	}
+
 

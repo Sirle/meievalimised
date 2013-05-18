@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.*;
+
+import com.google.appengine.api.rdbms.AppEngineDriver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.uvalimised.DAO.ConnectionManager;
@@ -16,7 +18,11 @@ public class SuggestServlet extends HttpServlet{
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
       String Name = req.getParameter("name");
-      Connection conn = ConnectionManager.getConnection();
+      Connection c = null;
+	    try {
+	      DriverManager.registerDriver(new AppEngineDriver());
+	      c = DriverManager.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
+	    
       
 	    try {
 	    	
@@ -24,27 +30,22 @@ public class SuggestServlet extends HttpServlet{
 
 	      if(Name != "" ) {
 	    	  String statement = createQuery(Name);
-	    	  PreparedStatement stmt = conn.prepareStatement(statement);
+	    	  PreparedStatement stmt = c.prepareStatement(statement);
 		      ResultSet rs = stmt.executeQuery();
 		      String jsonData = createJSON(rs);
 	          resp.setContentType("application/json");
 	          resp.setCharacterEncoding("UTF-8");
 	          resp.getWriter().write(jsonData);
 	      }
-	    } 
-	    catch (SQLException e) {
+	    }catch (SQLException e) {
 	        e.printStackTrace();
 	    } 
-	    finally {
-	        if (conn != null){
-	        	try {
-					conn.close();
-				} 
-	        	catch (SQLException ignore) {}
-	        }
+	    
+	    }catch (SQLException e) {
+	        e.printStackTrace();
 	    } 
-	    //resp.setHeader("Refresh","3; url=/evalimised.jsp");
-	  }
+       
+	}
 
 	private static String createQuery(String nimi) {
 		String beginning = "SELECT CONCAT_WS(' ',firstname, lastname) as nimi FROM candidate where firstname LIKE ";

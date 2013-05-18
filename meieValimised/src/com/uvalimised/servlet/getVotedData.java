@@ -24,13 +24,13 @@ public class getVotedData extends HttpServlet {
 		
 		//TODO-  serveriga suhtlus
 		
-		Candidate candidate= new Candidate(firstName, lastName, party, location);
+		//Candidate candidate= new Candidate(firstName, lastName, party, location);
 		
 		Gson gson = new GsonBuilder().create();
-        String categoriesJson = gson.toJson(candidate);
+       // String categoriesJson = gson.toJson(candidate);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        resp.getWriter().write(categoriesJson);
+       // resp.getWriter().write(categoriesJson);
 		
 	}
 

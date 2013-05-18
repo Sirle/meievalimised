@@ -2,6 +2,7 @@ package com.uvalimised.servlet;
 
 import java.io.IOException;  
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.appengine.api.rdbms.AppEngineDriver;
 import com.uvalimised.DAO.ConnectionManager;
 import com.uvalimised.data.Candidate;
 import com.uvalimised.data.User;
@@ -31,8 +33,10 @@ public class CandidateServlet extends HttpServlet{
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-		//Proovime Ć¼hendada
-		Connection con = ConnectionManager.getConnection();
+		Connection c = null;
+	    try {
+	      DriverManager.registerDriver(new AppEngineDriver());
+	      c = DriverManager.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
 		
 		// Kontrollime, kas kasutaja on sisse logitud. Kui ei ole, suunab vastavale veateatele.
 		HttpSession session = req.getSession();
@@ -84,7 +88,7 @@ public class CandidateServlet extends HttpServlet{
 				throw new Exception("Piirkond valimata!");
 			}
 			
-			candidate = new Candidate(user.getFirstName(), user.getLastName(), party, loc, req.getParameter("email"));
+			//candidate = new Candidate(user.getFirstName(), user.getLastName(), party, loc, req.getParameter("email"));
 		} catch (Exception ex){
 			System.out.println(ex);
 		}
@@ -93,7 +97,7 @@ public class CandidateServlet extends HttpServlet{
 		// Andmebaasides toimetamine
 		if (user.isCandidate == false){
 			try{
-				PreparedStatement statement= con.prepareStatement("INSERT INTO candidates (firstname, lastname, party, location, email) VALUES (?, ?, ?, ?, ?)");
+				PreparedStatement statement= c.prepareStatement("INSERT INTO candidates (firstname, lastname, party, location, email) VALUES (?, ?, ?, ?, ?)");
 				statement.setString(1, candidate.getFirstName());
 				statement.setString(2, candidate.getLastName());
 				statement.setString(3, candidate.getParty());
@@ -105,7 +109,7 @@ public class CandidateServlet extends HttpServlet{
 				statement.close();
 				user.setIsCandidate(true);
 				
-				PreparedStatement st2 = con.prepareStatement("INSERT INTO users (iscandidate) VALUES (?) WHERE uname='" + user.getUsername() + "'");
+				PreparedStatement st2 = c.prepareStatement("INSERT INTO users (iscandidate) VALUES (?) WHERE uname='" + user.getUsername() + "'");
 				st2.setBoolean(1, user.getIsCandidate());
 				st2.executeUpdate();
 				st2.close();
@@ -116,7 +120,7 @@ public class CandidateServlet extends HttpServlet{
 			}
 		}
 
-		ConnectionManager.closeConnection(); //Sulgeme
+		//ConnectionManager.closeConnection(); //Sulgeme
 		
 		ServletContext sc = getServletContext();
 	    sc.getRequestDispatcher("/WebKandidaadiReg.html").forward(req, resp);
