@@ -1,6 +1,7 @@
 package com.uvalimised.servlet;
-import com.google.appengine.api.rdbms.AppEngineDriver; 
-import com.google.gson.Gson;  
+
+import com.google.appengine.api.rdbms.AppEngineDriver;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.uvalimised.data.Candidate;
 
@@ -23,126 +24,114 @@ import javax.servlet.http.HttpServletResponse;
 import com.uvalimised.DAO.ConnectionManager;
 
 /**
- * Servlet implementation class MainServlet
- *  * CandidateSearchServlet
- *  * @author Helina
+ * Servlet implementation class MainServlet * CandidateSearchServlet * @author
+ * Helina
  */
 
 public class CandidateSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public CandidateSearchServlet() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public CandidateSearchServlet() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		Connection c = null;
-	    try {
-	      DriverManager.registerDriver(new AppEngineDriver());
-	      c = DriverManager.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
-		      
-		String party = request.getParameter("party");
-		String area = request.getParameter("area");
-		String firstname = request.getParameter("firstname");	
-		String lastname = request.getParameter("lastname");	
-		
-		String statement;
-		
-	    try {
-	      if((firstname.equals("") || firstname == null) && (lastname.equals("") || lastname == null) && 
-	    		  (party.equals("") || party == null) && (area.equals("")|| area == null)) {
-	    	  System.out.println("Getting all candidates");
-	    	  statement = "SELECT candidate.firstname, candidate.lastname, party_id, area_id " +
-	    	  		"FROM candidate";
-	      }
-	   
-	      else {
-	    	  	statement = createQuery(firstname,lastname,party, area);
-	      		PreparedStatement stmt = c.prepareStatement(statement);
-	      		ResultSet rs = stmt.executeQuery();
-		      	String jsonData = createJSON(rs, party,area);
-		      	response.setContentType("application/json");
-		      	response.setCharacterEncoding("UTF-8");
-		      	response.getWriter().write(jsonData);
-	      
-	    	}
-	      
-	    }catch (SQLException e) {
-	        e.printStackTrace();
-	    } 
-	    
-	    }catch (SQLException e) {
-	        e.printStackTrace();
-	    } 
-       
-	}
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+			c = DriverManager
+					.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
 
-	private static String createQuery(String firstname, String lastname, String party, String area) {
-		String beginning = "SELECT candidate.firstname, candidate.lastname";
-		String middle = "";
-		String end = "WHERE ";
-		if(!(firstname.equals("")) && firstname != null)
-			end += "CONCAT(firstname, ' ', lastname) LIKE '%"+ firstname + "%' AND ";	
-		if(!(lastname.equals("")) && lastname != null)
-			end += "lastname=\""+lastname+"\" AND ";
-		if(!(party.equals("")) && party != null) {
-			beginning += ", area.area_name";
-			end += "party_id=\""+party+"\" AND ";
-		}
-		if(!(area.equals("")) && area != null) {
-			beginning += ", party.party_name";
-			end += "area_id=\""+area+"\" AND ";
-		}
-		if(party.equals("") && area.equals("") && party != null && area != null){
-			beginning += ", area.area_name";
-			beginning += ", party.party_name";
-		}
-		middle += "JOIN party ON candidate.party_id = party.party_id ";
-		middle += "JOIN area ON candidate.area_id = area.area_id ";
-		//remove last " AND "
-		end = end.substring(0, end.length() - 5);
-		beginning +=" FROM candidate ";
-		String query = beginning + middle + end;
-		System.out.println(query);
-		return query;
-	}
+			String firstname = request.getParameter("firstname");
+			String lastname = request.getParameter("lastname");
+			String party = request.getParameter("party");
+			String area = request.getParameter("area");
+			
+			if (firstname.equals("")) {
+				firstname = "%";
+			}
+			if (lastname.equals("")) {
+				lastname = "%";
+			}
+			if (party.equals("")) {
+				party = "%";
+			}
+			if (area.equals("")) {
+				area = "%";
+			}
 
-	private static String createJSON(ResultSet rs, String party, String area){
-	      List<Candidate> candidates = new ArrayList<Candidate>();
-	      try {
-			while(rs.next()){
-			      Candidate candidate = new Candidate();
-			      candidate.setFirstName(rs.getString("firstname"));
-			      candidate.setFirstName(rs.getString("lastname"));
-			      if(party.equals("") || party == null){
-			    	  candidate.setParty(rs.getString("party_name"));
-			      }
-			      if(area.equals("") || area == null){
-			    	  candidate.setLocation(rs.getString("area_name"));
-			      }
-			      candidates.add(candidate);
-			  }
+			try {
+				DriverManager.registerDriver(new AppEngineDriver());
+				c = DriverManager
+						.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
+
+				String statement = "SELECT * FROM candidate WHERE firstname LIKE ?  AND lastname LIKE ? AND party_id LIKE ? AND area_id LIKE ?";
+				PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.setString(1,  "%" + firstname + "%");
+				stmt.setString(2, "%" + lastname + "%");
+				stmt.setString(3, "%" + party + "%");
+				stmt.setString(4, "%" + area + "%");
+
+				ResultSet rs = stmt.executeQuery(statement);
+				List<Candidate> result = new ArrayList<Candidate>();
+				while (rs.next()) {
+					Candidate spr = new Candidate();
+					spr.setId(rs.getLong(1));
+					spr.setFirstName(rs.getString(2));
+					spr.setLastName(rs.getString(3));
+					spr.setParty(rs.getString(4));
+					spr.setLocation(rs.getString(5));
+					result.add(spr);
+				}
+
+				out.print(new Gson().toJson(result));
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	      Gson gson = new GsonBuilder().create();
-          String candidatesJson = gson.toJson(candidates);
-          return candidatesJson;
-	}
-    
-	
-
-	   //Proovid
-	   //String region = request.getParameter("Region");
-	   //String party = request.getParameter("Party");
-	   //response.getWriter().write("{ id : 1 }");
 
 	}
 
+	private static String createJSON(ResultSet rs, String party, String area) {
+		List<Candidate> candidates = new ArrayList<Candidate>();
+		try {
+			while (rs.next()) {
+				Candidate candidate = new Candidate();
+				candidate.setFirstName(rs.getString("firstname"));
+				candidate.setFirstName(rs.getString("lastname"));
+				if (party.equals("") || party == null) {
+					candidate.setParty(rs.getString("party_name"));
+				}
+				if (area.equals("") || area == null) {
+					candidate.setLocation(rs.getString("area_name"));
+				}
+				candidates.add(candidate);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		Gson gson = new GsonBuilder().create();
+		String candidatesJson = gson.toJson(candidates);
+		return candidatesJson;
+	}
 
+	// Proovid
+	// String region = request.getParameter("Region");
+	// String party = request.getParameter("Party");
+	// response.getWriter().write("{ id : 1 }");
+
+}

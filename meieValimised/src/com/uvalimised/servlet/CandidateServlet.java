@@ -1,9 +1,14 @@
 package com.uvalimised.servlet;
 
 import java.io.IOException;  
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -14,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.rdbms.AppEngineDriver;
+import com.google.gson.Gson;
 import com.uvalimised.DAO.ConnectionManager;
 import com.uvalimised.data.Candidate;
 import com.uvalimised.data.User;
@@ -24,6 +30,46 @@ public class CandidateServlet extends HttpServlet{
 	public CandidateServlet() {
         super();
     }
+	
+	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
+		 resp.setContentType("text/html; charset=UTF-8");
+
+
+
+	  PrintWriter out = resp.getWriter();
+	  Connection c = null;
+	    try {
+
+	      DriverManager.registerDriver(new AppEngineDriver());
+	      c = DriverManager.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
+	      String statement ="SELECT * FROM candidate";  
+	      java.sql.PreparedStatement stmt = c.prepareStatement(statement);
+	      int success = 2;
+	      ResultSet rs  = stmt.executeQuery(statement);
+	      List<Candidate> result = new ArrayList<Candidate>();
+	      while (rs.next()){
+	    	  Candidate spr = new Candidate();
+	    	  spr.setId(rs.getLong(1));
+	    	  spr.setFirstName(rs.getString(2));
+	    	  spr.setLastName(rs.getString(3));
+	    	  spr.setParty(rs.getString(4));
+	    	  spr.setLocation(rs.getString(5));
+	    	  result.add(spr);
+	      }
+
+	      out.print(new Gson().toJson(result));
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        if (c != null) 
+	          try {
+	            c.close();
+	            } catch (SQLException ignore) {
+	         }
+	      } 
+	  }
 	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -126,8 +172,5 @@ public class CandidateServlet extends HttpServlet{
 	}
 	}
 
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-	}
 	
 }
