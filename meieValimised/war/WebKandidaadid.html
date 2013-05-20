@@ -16,9 +16,23 @@
 	<script src="script/jquery-ui.js"></script>
 	<link type="text/css" href="css/autocss.css" rel="stylesheet">
 	
+	<script type="text/javascript" 
+    src="/script/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+       $("#driver").click(function(event){
+           $.getJSON('/candidate.json'/* nii peaks saama servletist jsonid /CandidateServlet?id='+id */, function(jd) {
+              $('#stage').html('<p> Name: ' + jd.firstname + " " + jd.lastname +'</p>');
+              $('#stage').append('<p> Party : ' + jd.party+ '</p>');
+              $('#stage').append('<p> Area: ' + jd.area+ '</p>');
+           });
+       });
+    });
+    </script>
 </head>
 
 <body onLoad="redirectCSS()">
+
 <p style="color:red">Antud rakendus ei ole mõeldud kasutamiseks reaalsetel valimistel.</p>
 	  <ul id="menu" class="no-print"> 
 		<li><a href="WebHome.html">Pealeht</a><li>
@@ -27,9 +41,15 @@
 		<li><a href="WebValijale.html">Valijale</a><li>
 		<li><a href="WebH22leta.html">Hääleta</a><li>
 	</ul>
-
+	
 <div class="content">
 	<div id="suurKast">
+	<p>Click on the button to load result.html file:</p>
+	<div id="stage" style="background-color:blue;">
+    	STAGE
+	</div>
+	<input type="button" id="driver" name="driver" value="Load Data" />
+	
 		<h1>Lisa kandidaadiks</h1>
 		<h2><a href="WebKandidaadiReg.html">KANDIDEERI</a></h2><br/>
 		
@@ -58,11 +78,12 @@
 
 				</select>
 				<input type="text" placeholder="Sisesta nimi" onfocus="suggest()" id="name">
-				<input id="myButton" type="button" class="otsi" onclick= "otsi()" value="Otsi">
+				<input id="myButton" type="button" name="otsi" class="otsi" onclick= "otsi()" value="Otsi">
 		
 			</div>
 			
-			<br/>	
+			<br/>
+			
 			<div style="border:1px solid #ccc;padding:5px;">
 				<table id="candidate-list">
 					<thead>
@@ -89,6 +110,6 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
+			</div> 
 	</div>	
 </div>

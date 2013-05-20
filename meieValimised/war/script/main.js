@@ -72,7 +72,10 @@ jQuery(document).on('click', '.otsi', function() {
 			tableBody.append(candidateRow);
 		};
 	};
-	
+});
+
+
+		
 	/**
 	var ajaxroute;
 	if(search.region && search.party) {
@@ -112,7 +115,10 @@ jQuery(document).on('click', '.otsi', function() {
 		console.log(response);
 	});
 	
-	*/
+	
 	return false;
-});
+});*/
+
+
+
 

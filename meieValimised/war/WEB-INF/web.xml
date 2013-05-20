@@ -9,9 +9,6 @@
 		<url-pattern>/CandidateServlet</url-pattern>
 	</servlet-mapping>
 
-
-
-
 	<servlet>
 		<servlet-name>CandidateSearchServlet</servlet-name>
 		<servlet-class>com.uvalimised.servlet.CandidateSearchServlet</servlet-class>
@@ -20,20 +17,44 @@
 		<servlet-name>CandidateSearchServlet</servlet-name>
 		<url-pattern>/CandidateSearchServlet</url-pattern>
 	</servlet-mapping>
-<!-- 
+	
 	<servlet>
-		<servlet-name>SystemServiceServlet</servlet-name>
-		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
-		<init-param>
-			<param-name>services</param-name>
-			<param-value/>
-		</init-param>
+		<servlet-name>PartyServlet</servlet-name>
+		<servlet-class>com.uvalimised.servlet.PartyServlet</servlet-class>
 	</servlet>
-
 	<servlet-mapping>
-		<servlet-name>SystemServiceServlet</servlet-name>
-		<url-pattern>/SystemServiceServlet</url-pattern>
+		<servlet-name>PartyServlet</servlet-name>
+		<url-pattern>/PartyServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PartySearchServlet</servlet-name>
+		<servlet-class>com.uvalimised.servlet.PartySearchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PartySearchServlet</servlet-name>
+		<url-pattern>/PartySearchServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AreaServlet</servlet-name>
+		<servlet-class>com.uvalimised.servlet.AreaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AreaServlet</servlet-name>
+		<url-pattern>/AreaServlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AreaSearchServlet</servlet-name>
+		<servlet-class>com.uvalimised.servlet.AreaSearchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AreaSearchServlet</servlet-name>
+		<url-pattern>/AreaSearchServlet</url-pattern>
+	</servlet-mapping>
+	
+<!-- 
 	<servlet>
 		<servlet-name>FBauth</servlet-name>
 		<servlet-class>com.uvalimised.servlet.FBauth</servlet-class>
