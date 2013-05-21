@@ -48,10 +48,6 @@ function createTable(candidates, givenParty, givenRegion) {
 
 		//create new row with data
 		var cols = new Array();
-
-//		kandidaadinimi="klikinime('"+name+"')";
-//		kandidaadilinn="klikinime('"+region+"')";
-//		kandidaadipartei="klikinime('"+party+"')";
 		
 		//kandidaadiInfo="klikinime('"+name+"','"+region+"','"+party+"')";
 		
@@ -70,8 +66,6 @@ function createTable(candidates, givenParty, givenRegion) {
 		//append data to table
 		row.addClass("candidateClickable");
 		$("#tabel tbody").append(row);
-		//$(".candidateClickable").click(klikinime(name,region,party));
-		//row.attr("onClick", klikinime(name,region,party));
 	}
 	//display table and apply tablesorter
 	if ($("#tabel tbody tr").size() > 0) {
@@ -79,10 +73,6 @@ function createTable(candidates, givenParty, givenRegion) {
 		$("#tabel").trigger("clearCache");
 		// let the plugin know that we made a update 
 		$("#table").trigger("update");
-		// set sorting column and direction, this will sort on the first column 
-		//var sorting = [[0,0]]; 
-		// sort on the first column 
-		//$("table").trigger("sorton",[sorting]);
 	} else {
 		$('#tabel').hide();
 	}

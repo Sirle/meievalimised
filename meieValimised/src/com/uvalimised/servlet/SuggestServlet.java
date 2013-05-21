@@ -25,8 +25,6 @@ public class SuggestServlet extends HttpServlet{
 	    
       
 	    try {
-	    	
-	    
 
 	      if(Name != "" ) {
 	    	  String statement = createQuery(Name);

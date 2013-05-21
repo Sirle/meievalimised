@@ -7,8 +7,6 @@
 	<link href="css/mainMenu.css" rel="stylesheet" type="text/css" media="all"/>
 	<link href="css/print.css" rel="stylesheet" type="text/css" media="print"/>
 	<title>E-valimised - Valijale</title>
-	<!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<link type="text/css" href="css/jquery-ui-1.8.13.custom.css" rel="stylesheet">  -->
 	<script src="script/jquery-1.9.1.js"></script>
 	<script src="script/main.js"></script>
 	<script src="script/search.js"></script>
@@ -16,24 +14,12 @@
 	<script src="script/jquery-ui.js"></script>
 	<link type="text/css" href="css/autocss.css" rel="stylesheet">
 	
-	<script type="text/javascript" 
-    src="/script/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" language="javascript">
-    $(document).ready(function() {
-       $("#driver").click(function(event){
-           $.getJSON('/candidate.json'/* nii peaks saama servletist jsonid /CandidateServlet?id='+id */, function(jd) {
-              $('#stage').html('<p> Name: ' + jd.firstname + " " + jd.lastname +'</p>');
-              $('#stage').append('<p> Party : ' + jd.party+ '</p>');
-              $('#stage').append('<p> Area: ' + jd.area+ '</p>');
-           });
-       });
-    });
-    </script>
 </head>
 
 <body onLoad="redirectCSS()">
 
 <p style="color:red">Antud rakendus ei ole mõeldud kasutamiseks reaalsetel valimistel.</p>
+      <input id="logi" type="button" value="Sisene" onClick="FB.login()"><br><br>
 	  <ul id="menu" class="no-print"> 
 		<li><a href="WebHome.html">Pealeht</a><li>
 		<li><a href="WebStatistika.html">Statistika</a><li>
@@ -44,11 +30,6 @@
 	
 <div class="content">
 	<div id="suurKast">
-	<p>Click on the button to load result.html file:</p>
-	<div id="stage" style="background-color:blue;">
-    	STAGE
-	</div>
-	<input type="button" id="driver" name="driver" value="Load Data" />
 	
 		<h1>Lisa kandidaadiks</h1>
 		<h2><a href="WebKandidaadiReg.html">KANDIDEERI</a></h2><br/>
@@ -77,7 +58,7 @@
 					
 
 				</select>
-				<input type="text" placeholder="Sisesta nimi" onfocus="suggest()" id="name">
+				<input name= "name" type="text" placeholder="Sisesta nimi" onfocus="suggest()" id="name">
 				<input id="myButton" type="button" name="otsi" class="otsi" onclick= "otsi()" value="Otsi">
 		
 			</div>
