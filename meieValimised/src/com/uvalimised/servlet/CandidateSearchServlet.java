@@ -47,6 +47,7 @@ public class CandidateSearchServlet extends HttpServlet {
 		Connection c = null;
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
+		
 		try {
 			DriverManager.registerDriver(new AppEngineDriver());
 			c = DriverManager

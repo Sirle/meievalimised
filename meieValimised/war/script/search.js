@@ -8,7 +8,7 @@ function otsi() {
 
 		$.ajax({
 			type : 'GET',
-			url: '/meieValimised/CandidateSearchServlet',
+			url: '/CandidateSearchServlet',
 			 data: { 
     		 'firstname': firstname, 
     		 'lastname': '',
@@ -20,6 +20,7 @@ function otsi() {
 				var candidates = data;
 				createTable(candidates, partyName, regionName);
 				$('*').css('cursor','default');
+				console.log(JSON.stringify(data));
 			},
 			error : function(xhr, ajaxOptions, thrownError) {
 				$('*').css('cursor','default');
@@ -30,21 +31,15 @@ function otsi() {
 
 function createTable(candidates, givenParty, givenRegion) {
 	//clear previous table
-	$('#tabel tbody tr').remove();
+	$('#candidate-list tbody tr').remove();
 
 	var name, region, party;
 
 	for (i in candidates) {
 		//get values from json data
-		name = candidates[i]['firstname'] + ' ' + candidates[i]['lastname'];
-		if (givenParty == '')
-			party = candidates[i]['party'];
-		else
-			party = givenParty;
-		if (givenRegion == '')
-			region = candidates[i]['area'];
-		else
-			region = givenRegion;
+		name = candidates[i]['firstName'] + ' ' + candidates[i]['lastName'];
+		party = candidates[i]['party'];
+		region = candidates[i]['location'];
 
 		//create new row with data
 		var cols = new Array();
@@ -65,16 +60,16 @@ function createTable(candidates, givenParty, givenRegion) {
 			row.append(cols[j]);
 		//append data to table
 		row.addClass("candidateClickable");
-		$("#tabel tbody").append(row);
+		$("#candidate-list tbody").append(row);
 	}
 	//display table and apply tablesorter
-	if ($("#tabel tbody tr").size() > 0) {
-		$('#tabel').show();
-		$("#tabel").trigger("clearCache");
+	if ($("#candidate-list tbody tr").size() > 0) {
+		$('#candidate-list').show();
+		$("#candidate-list").trigger("clearCache");
 		// let the plugin know that we made a update 
-		$("#table").trigger("update");
+		$("#candidate-list").trigger("update");
 	} else {
-		$('#tabel').hide();
+		$('#candidate-list').hide();
 	}
 }
 
@@ -82,4 +77,35 @@ function getCandidateInfo(candidate) {
 	$('#partyInfo').text(candidate.party.name);
 	$('#regionInfo').text(candidate.region.name);
 	$('#personInfo').text(candidate.person.name);
+}
+
+function otsiStat() {
+	var firstname = $("#name").val();
+	var partyCode = $("#party").val();
+	var areaCode = $("#area").val();
+	var partyName = $("#party option:selected").text();
+	var regionName = $("#area option:selected").text();
+	$('*').css('cursor','wait');
+
+	$.ajax({
+		type : 'GET',
+		url: '/CandidateSearchServlet',
+		 data: { 
+		 'firstname': firstname, 
+		 'lastname': '',
+		 'party': partyCode,
+		 'area': areaCode
+			},
+		dataType : 'json',
+		success : function(data) {
+			var candidates = data;
+			createTable(candidates, partyName, regionName);
+			$('*').css('cursor','default');
+			console.log(JSON.stringify(data));
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			$('*').css('cursor','default');
+			alert(thrownError);
+		}
+	});
 }
