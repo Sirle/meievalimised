@@ -130,9 +130,5 @@ public class CandidateSearchServlet extends HttpServlet {
 		return candidatesJson;
 	}
 
-	// Proovid
-	// String region = request.getParameter("Region");
-	// String party = request.getParameter("Party");
-	// response.getWriter().write("{ id : 1 }");
 
 }

@@ -54,7 +54,6 @@
 		<url-pattern>/AreaSearchServlet</url-pattern>
 	</servlet-mapping>
 	
-<!-- 
 	<servlet>
 		<servlet-name>FBauth</servlet-name>
 		<servlet-class>com.uvalimised.servlet.FBauth</servlet-class>
@@ -90,7 +89,7 @@
 		<servlet-name>Suggest</servlet-name>
 		<url-pattern>/Suggest</url-pattern>
 	</servlet-mapping>
--->
+
 	<welcome-file-list>
 		<welcome-file>WebHome.html</welcome-file>
 
