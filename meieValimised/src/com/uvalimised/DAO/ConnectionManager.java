@@ -25,7 +25,7 @@ public class ConnectionManager extends HttpServlet{
 	  Connection c = null;
 	    try {
 	      DriverManager.registerDriver(new AppEngineDriver());
-	      c = DriverManager.getConnection("jdbc:google:rdbms://netivalimised2013:netivalimised/evalimised", "root", "");
+	      c = DriverManager.getConnection("jdbc:google:rdbms://evalimised-ut-andmebaas:andmebaas/meievalimised");
 
 	      if(Name != "" ) {
 	    	  String statement = createQuery(Name);
